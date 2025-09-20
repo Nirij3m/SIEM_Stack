@@ -1,0 +1,71 @@
+services:
+
+  syslogng:
+    image: linuxserver/syslog-ng
+    container_name: syslogng
+    depends_on: 
+      - elasticsearch
+    networks:
+      - elk
+    configs:
+      - source: syslog_conf
+        target: /config/syslog-ng.conf
+    volumes:
+      - common_logs:/logs:rw
+      - certs:/config/certs:rw
+
+
+  snort:
+    image: dockurr/snort
+    container_name: snort
+    depends_on: 
+      - elasticsearch
+    networks:
+      - elk
+
+
+  kibana:
+    image: kibana:9.1.3
+    container_name: kibana
+    depends_on: 
+      - elasticsearch
+    networks:
+      - elk
+    ports:
+      - "5601:5601"
+
+  elasticsearch:
+    image: elasticsearch:9.1.3
+    container_name: elasticsearch
+    networks:
+      - elk
+    volumes:
+      - certs:/certs:rw
+
+  debian:
+    container_name: debian
+    build:
+      context: ./configs
+      dockerfile: dockerfile_debian.txt
+    ports:
+      - "80:80"
+      - "2222:22"
+    volumes:
+      - common_logs:/var/log
+    restart: unless-stopped
+    networks:
+      - elk
+
+configs:
+  syslog_conf:
+    file: ./configs/syslog-ng.conf
+
+networks:
+  elk:
+    driver: bridge
+
+volumes:
+  common_logs:
+  certs:
+
+

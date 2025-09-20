@@ -1,0 +1,22 @@
+FROM debian:bookworm
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends openssh-server apache2 procps vim suricata suricata-update curl && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+RUN touch /var/log/auth.log && \
+    chown root:root /var/log/auth.log && \
+    chmod 600 /var/log/auth.log
+
+
+RUN mkdir -p /var/run/sshd && \
+    echo 'root:root' | chpasswd && \
+    sed -i 's/^#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config || true && \
+    sed -i '/^PermitRootLogin/ s/.*/PermitRootLogin yes/' /etc/ssh/sshd_config || true
+
+EXPOSE 80 22
+
+CMD ["/bin/bash","-lc","/usr/sbin/sshd -D -E /var/log/auth.log & exec apache2ctl -D FOREGROUND"]
