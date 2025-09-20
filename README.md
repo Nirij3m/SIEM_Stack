@@ -27,29 +27,30 @@ Une fois la configuration terminée, il faudra modifier les identifiants du comp
 - `docker exec -it elasticsearch /usr/share/elasticsearch/bin/elasticsearch-reset-password -i -u elastic`
 
 Choisissez comme mot de passe `elastic`. Ces identifiants sont utilisés par défaut par le conteneur syslogng pour enregistrer les logs dans ElasticSearch.
+
 { 
-  Si vous souhaitez utiliser des identifiants personnalisés, il faudra modifier le fichier de configuration de syslogng: `./configs/syslog-ng.conf` du répertoire courant:
-  ```shell
-  destination d_elasticsearch_https {
-      elasticsearch-http(
-          url("https://elasticsearch:9200/_bulk")
-          index("logs")
-          type("")
-  		user("elastic") <------------------ Remplacer par le nom d'utilisateur choisi  ----
-  		password("elastic") <------------------ Remplacer par le mot de passe choisi ----
-  		#template("$(format-json --scope rfc5424 --scope dot-nv-pairs
-          #--rekey .* --shift 1 --scope nv-pairs
-          #--exclude DATE @timestamp=${ISODATE})")
-          #tls(
-          #    ca-file("/config/certs/http_ca.crt")
-          #    peer-verify(yes)
-          #)
-  		tls(peer-verify(no))
-      );
-  };
-  ```
-  Puis relancez le conteneur syslogng pour appliquer les changements:
-  - `docker compose restart syslogng`
+      Si vous souhaitez utiliser des identifiants personnalisés, il faudra modifier le fichier de configuration de syslogng: `./configs/syslog-ng.conf` du répertoire courant:
+      ```shell
+      destination d_elasticsearch_https {
+          elasticsearch-http(
+              url("https://elasticsearch:9200/_bulk")
+              index("logs")
+              type("")
+      		user("elastic") <------------------ Remplacer par le nom d'utilisateur choisi  ----
+      		password("elastic") <------------------ Remplacer par le mot de passe choisi ----
+      		#template("$(format-json --scope rfc5424 --scope dot-nv-pairs
+              #--rekey .* --shift 1 --scope nv-pairs
+              #--exclude DATE @timestamp=${ISODATE})")
+              #tls(
+              #    ca-file("/config/certs/http_ca.crt")
+              #    peer-verify(yes)
+              #)
+      		tls(peer-verify(no))
+          );
+      };
+      ```
+      Puis relancez le conteneur syslogng pour appliquer les changements:
+      - `docker compose restart syslogng`
 
 }
 
