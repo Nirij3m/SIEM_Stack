@@ -7,7 +7,7 @@ Dans le répertoire local du projet exécuter la commande suivante pour lancer l
 Les images des conteneurs seront automatiquement tirées puis configurées.
 
 Pour stopper les conteneurs (sans les supprimer):
--`docker compose stop`
+- `docker compose stop`
 
 Pour supprimer les conteneurs:
 - `docker compose down`
