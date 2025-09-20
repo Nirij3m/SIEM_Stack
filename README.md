@@ -1,30 +1,29 @@
-### Installation
+## Installation
 Se référer au guide d'installation de docker pour pouvoir lancer les conteneurs: https://docs.docker.com/engine/install/
 
-### Lancement
-Dans le répertoire local du projet exécuter la commande suivante pour lancer les conteneurs.
+## Lancement
+- Dans le répertoire local du projet exécuter la commande suivante pour lancer les conteneurs.
 `docker compose up`
 Les images des conteneurs seront automatiquement tirées puis configurées.
 
-Pour stopper les conteneurs (sans les supprimer):
+- Pour stopper les conteneurs (sans les supprimer):
 `docker compose stop`
 
-Pour supprimer les conteneurs:
+- Pour supprimer les conteneurs:
 `docker compose down`
 
 ### Configuration
 Une fois les conteneurs lancés, il faudra configurer Kibana pour communiquer avec la base ElasticSearch.
-
-Pour cela, il faut se connecter à l'interface Kibana exposée du conteneur sur la machine hôte:
+- Pour cela, il faut se connecter à l'interface Kibana exposée du conteneur sur la machine hôte:
 `http://localhost:5601`
 
-Kibana demandera un token de connexion pour réaliser la liaison avec ElasticSearch. Il faut le générer:
+- Kibana demandera un token de connexion pour réaliser la liaison avec ElasticSearch. Il faut le générer:
 `docker exec -it elasticsearch /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana` 
 
-Kibana demandera un code de confirmation à récupérer:
+- Kibana demandera un code de confirmation à récupérer:
 `docker exec -it kibana /usr/share/kibana/bin/kibana-verification-code`
 
-Une fois la configuration terminée, il faudra modifier les identifiants du compte superadministrateur `elastic`:
+- Une fois la configuration terminée, il faudra modifier les identifiants du compte superadministrateur `elastic`:
 `docker exec -it elasticsearch /usr/share/elasticsearch/bin/elasticsearch-reset-password -i -u elastic`
 Choisissez comme mot de passe `elastic`. Ces identifiants sont utilisés par défaut par le conteneur syslogng pour enregistrer les logs dans ElasticSearch.
 { 
