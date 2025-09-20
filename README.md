@@ -28,9 +28,8 @@ Une fois la configuration terminée, il faudra modifier les identifiants du comp
 
 Choisissez comme mot de passe `elastic`. Ces identifiants sont utilisés par défaut par le conteneur syslogng pour enregistrer les logs dans ElasticSearch.
 
-{ 
-      Si vous souhaitez utiliser des identifiants personnalisés, il faudra modifier le fichier de configuration de syslogng: `./configs/syslog-ng.conf` du répertoire courant:
-      ```shell
+Si vous souhaitez utiliser des identifiants personnalisés, il faudra modifier le fichier de configuration de syslogng: `./configs/syslog-ng.conf` du répertoire courant:
+```shell
             destination d_elasticsearch_https {
                 elasticsearch-http(
                     url("https://elasticsearch:9200/_bulk")
@@ -48,11 +47,10 @@ Choisissez comme mot de passe `elastic`. Ces identifiants sont utilisés par dé
             		tls(peer-verify(no))
                 );
             };
-      ```
-      Puis relancez le conteneur syslogng pour appliquer les changements:
-      - `docker compose restart syslogng`
+```
+Puis relancez le conteneur syslogng pour appliquer les changements:
+- `docker compose restart syslogng`
 
-}
 
 ### Utilisation
 Vous pouvez désormais vous connecter à ElasticSearch et configurer les index et visualisations depuis l'interface Kibana à l'adresse:  `http://localhost:5601`. 
