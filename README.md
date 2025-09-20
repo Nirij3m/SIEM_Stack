@@ -3,6 +3,7 @@ Se référer au guide d'installation de docker pour pouvoir lancer les conteneur
 
 ## Lancement
 Dans le répertoire local du projet exécuter la commande suivante pour lancer les conteneurs.
+- `docker compose build`
 - `docker compose up`
 Les images des conteneurs seront automatiquement tirées puis configurées.
 
