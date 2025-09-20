@@ -25,6 +25,7 @@ Kibana demandera un code de confirmation à récupérer:
 
 Une fois la configuration terminée, il faudra modifier les identifiants du compte superadministrateur `elastic`:
 - `docker exec -it elasticsearch /usr/share/elasticsearch/bin/elasticsearch-reset-password -i -u elastic`
+
 Choisissez comme mot de passe `elastic`. Ces identifiants sont utilisés par défaut par le conteneur syslogng pour enregistrer les logs dans ElasticSearch.
 { 
   Si vous souhaitez utiliser des identifiants personnalisés, il faudra modifier le fichier de configuration de syslogng: `./configs/syslog-ng.conf` du répertoire courant:
@@ -49,6 +50,7 @@ Choisissez comme mot de passe `elastic`. Ces identifiants sont utilisés par dé
   ```
   Puis relancez le conteneur syslogng pour appliquer les changements:
   - `docker compose restart syslogng`
+
 }
 
 ### Utilisation
