@@ -10,9 +10,12 @@ services:
     configs:
       - source: syslog_conf
         target: /config/syslog-ng.conf
+      - source: syslog_conf # duplicate conf destination in case of entrypoint overwrite
+        target: /etc/syslog-ng/syslog-ng.conf
     volumes:
       - common_logs:/logs:rw
       - certs:/config/certs:rw
+    entrypoint: ["/usr/sbin/syslog-ng", "-F", "-def", "/etc/syslog-ng/syslog-ng.conf"]
 
 
   snort:
@@ -55,10 +58,35 @@ services:
     restart: unless-stopped
     networks:
       - elk
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    configs:
+      - source: suricata_conf
+        target: /etc/suricata/suricata.yaml
+      - source: suricata_rules
+        target: /etc/suricata/rules/suricata.rules
+      - source: index_php
+        target: /var/www/html/index.php
+      - source: login_php
+        target: /var/www/html/login.php
+      - source: sha256malware
+        target: /etc/suricata/rules/sha256malware.list
 
 configs:
   syslog_conf:
     file: ./configs/syslog-ng.conf
+  suricata_conf:
+    file: ./configs/suricata.yaml
+  suricata_rules:
+    file: ./configs/suricata.rules
+  index_php:
+    file: ./configs/index.php
+  login_php:
+    file: ./configs/login.php
+  sha256malware:
+    file: ./configs/sha256malware.list
+
 
 networks:
   elk:

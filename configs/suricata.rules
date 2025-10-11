@@ -1,0 +1,17 @@
+# Web fuzzing alert
+alert http any any -> any any (msg:"WEB FUZZING detected - Too much 404 in 60s timeframe"; content:"404"; http_stat_code; classtype: attempted-recon; sid:100001; rev:1; threshold: type threshold, track by_src, count 10, seconds 60;)
+# drop http any any -> any any (content:"404"; http_stat_code; classtype: attempted-recon; sid:120002; rev:1; threshold: type threshold, track by_src, count 10, seconds 60;)
+
+# Nmap Scan
+# From Emerging Threats ruleset - https://rules.emergingthreats.net/open/suricata/rules
+alert http any any -> any any (msg:"ET SCAN Nmap Scripting Engine User-Agent Detected (Nmap Scripting Engine)"; flow:to_server,established; http.user_agent; content:"Mozilla/5.0 (compatible|3b| Nmap Scripting Engine"; nocase; depth:46; classtype:web-application-attack; sid:2009358; rev:6; metadata:created_at 2010_07_30, confidence High, signature_severity Informational, updated_at 2020_04_22;)
+
+# Web Command Injection
+alert http any any -> any any (msg:"WEB CMD INJECTION detected - Illegal unix command passed as argument"; flow:to_server,established; http.request_body; pcre:"/ls|cat|bash|sh/i"; classtype: web-application-attack; sid:100002; rev:1;)
+
+# Web Login Bruteforce
+alert http any any -> any any (msg:"WEB LOGIN BRUTEFORCE detected - Too much 401 failed login in 60s timeframe"; content:"401"; http_stat_code; classtype: web-application-attack; sid:100003; rev:1; threshold: type threshold, track by_src, count 10, seconds 60;)
+
+# Malicious File Download
+alert http any any -> any any (msg:"MALICIOUS FILE DONWLOAD detected - Blacklist sha256 checksum match"; filesha256:sha256malware.list; filestore; classtype: trojan-activity; sid:100004; rev:1;)
+

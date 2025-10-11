@@ -2,7 +2,7 @@ FROM debian:bookworm
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends openssh-server apache2 procps vim suricata suricata-update curl && \
+    apt-get install -y --no-install-recommends openssh-server apache2 php tcpdump wget procps nano suricata suricata-update iputils-ping vim curl net-tools iproute2 sudo jq && \
     rm -rf /var/lib/apt/lists/*
 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
@@ -11,6 +11,16 @@ RUN touch /var/log/auth.log && \
     chown root:root /var/log/auth.log && \
     chmod 600 /var/log/auth.log
 
+RUN rm /var/www/html/index.html
+RUN touch /var/www/html/flag.txt
+RUN echo 'flag{c0mm@nd_inject!0n_m@ster}' > /var/www/html/flag.txt
+
+RUN mkdir /var/www/html/uploads
+RUN chown www-data:www-data /var/www/html/uploads
+RUN chmod 755 /var/www/html/uploads
+
+RUN sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 300M/' /etc/php/8.2/apache2/php.ini \
+ && sed -i 's/^post_max_size = .*/post_max_size = 300M/' /etc/php/8.2/apache2/php.ini
 
 RUN mkdir -p /var/run/sshd && \
     echo 'root:root' | chpasswd && \
@@ -19,4 +29,4 @@ RUN mkdir -p /var/run/sshd && \
 
 EXPOSE 80 22
 
-CMD ["/bin/bash","-lc","/usr/sbin/sshd -D -E /var/log/auth.log & exec apache2ctl -D FOREGROUND"]
+CMD ["/bin/bash","-lc","truncate -s 0 /var/log/suricata/* || true & truncate -s 0 var/log/apache2/* || true & truncate -s 0 /var/log/auth.log || true & /usr/sbin/sshd -D -E /var/log/auth.log & /bin/suricata -c /etc/suricata/suricata.yaml -vvv -i eth0 & exec apache2ctl -D FOREGROUND"]
