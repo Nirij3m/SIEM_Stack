@@ -15,13 +15,6 @@ RUN rm /var/www/html/index.html
 RUN touch /var/www/html/flag.txt
 RUN echo 'flag{c0mm@nd_inject!0n_m@ster}' > /var/www/html/flag.txt
 
-RUN mkdir /var/www/html/uploads
-RUN chown www-data:www-data /var/www/html/uploads
-RUN chmod 755 /var/www/html/uploads
-
-RUN sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 300M/' /etc/php/8.2/apache2/php.ini \
- && sed -i 's/^post_max_size = .*/post_max_size = 300M/' /etc/php/8.2/apache2/php.ini
-
 RUN mkdir -p /var/run/sshd && \
     echo 'root:root' | chpasswd && \
     sed -i 's/^#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config || true && \
