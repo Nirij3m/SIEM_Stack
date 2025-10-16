@@ -24,17 +24,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Login Page</title>
   <style>
  
-    * {
+      * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .navbar {
+      }   
+      body {
+          padding: 0;
+          font-family: Arial, sans-serif;
+          background: #f4f4f4;
+      }
+      .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -42,32 +42,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       padding: 0.4rem 1.2rem;
       color: white;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
+      }
 
-    .navbar-brand {
+      .navbar-brand {
       font-size: 1.1rem;       
       font-weight: 400;        
       text-decoration: none;
       color: white;
-    }
+      }
 
-    .nav-items {
+      .nav-items {
       display: flex;
       gap: 1rem;
-    }
+      }
 
-    .nav-link {
+      .nav-link {
       text-decoration: none;
       color: white;
       font-size: 0.95rem;
       padding: 0.4rem 0.6rem;
       border-radius: 4px;
       transition: background-color 0.3s;
-    }
+      }
 
-    .nav-link:hover {
+      .nav-link:hover {
       background-color: rgba(255, 255, 255, 0.2);
-    }
+      }
 
     .container {
       max-width: 400px;
