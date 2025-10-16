@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $loginMessage = '<div class="message success">✅ Connexion réussie. Bienvenue, ' . htmlspecialchars($username) . ' !</div>';
     } else {
         http_response_code(401);
-        $loginMessage = '<div class="message error">❌ Identifiants incorrects. Veuillez réessayer.</div>';
+        $loginMessage = "<div class='message error'>❌ Identifiants incorrects. Veuillez réessayer.</div>";
     }
 }
 ?>
@@ -149,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container">
     <h2 style="text-align:center; margin-bottom: 1.5rem;">Connexion</h2>
 
-    <form method="POST" action="login.php">
+    <form method="POST" action="login.php" name="login">
       <div class="form-group">
         <label for="username">Nom d'utilisateur</label>
         <input type="text" id="username" name="username" required>

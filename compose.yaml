@@ -70,6 +70,8 @@ services:
         target: /var/www/html/index.php
       - source: login_php
         target: /var/www/html/login.php
+      - source: admin_php
+        target: /var/www/html/admin.php
       - source: sha256malware
         target: /etc/suricata/rules/sha256malware.list
 
@@ -82,6 +84,8 @@ configs:
     file: ./configs/suricata.rules
   index_php:
     file: ./configs/index.php
+  admin_php:
+    file: ./configs/admin.php
   login_php:
     file: ./configs/login.php
   sha256malware:
