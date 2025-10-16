@@ -449,8 +449,6 @@ outputs:
   - file-store:
       version: 2
       enabled: yes
-      force-byte-scan: yes
-      force-magic: yes
 
       # Set the directory for the filestore. Relative pathnames
       # are contained within the "default-log-dir".
@@ -459,10 +457,9 @@ outputs:
       # Write out a fileinfo record for each occurrence of a file.
       # Disabled by default as each occurrence is already logged
       # as a fileinfo record to the main eve-log.
-      write-fileinfo: yes
 
       # Force storing of all files. Default: no.
-      force-filestore: yes
+
 
       # Override the global stream-depth for sessions in which we want
       # to perform file extraction. Set to 0 for unlimited; otherwise,
