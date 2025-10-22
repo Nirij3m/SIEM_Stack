@@ -75,6 +75,9 @@ Si vous souhaitez utiliser des identifiants personnalisés, il vous faudra modif
 Puis relancez le conteneur syslogng pour appliquer les changements:
 - `docker compose restart syslogng`
 
+**Attention**, par défaut l'IDPS Suricata écoute le trafic sur l'interface par défaut _eth0_ du conteneur Debian. Si jamais votre instance de Docker Engine attribue un autre nom d'interface réseau pour ce conteneur, l'IDPS ne pourra pas inspecter les paquets et donc fonctionner correctement. Pour remédier à cela, il vous faudra identifier le nom d'interface attribué au conteneur Debian puis de modifier le fichier Dockerfile situé à l'emplacement `/configs/dockerfile_debian.txt` ligne 25 avec: 
+`...SNAP... /bin/suricata -c /etc/suricata/suricata.yaml -vvv -i NOUVELLE_INTERFACE ...SNAP...`
+
 ### Utilisation
 Vous pouvez désormais vous connecter à ElasticSearch et configurer les index et visualisations depuis l'interface Kibana à l'adresse:  `http://localhost:5601`. 
 Les index pour stocker les logs devraient être automatiquement créées, si ce n'est pas le cas vous pouvez en créer un manuellement dans l'onglet `Index Management` de ElasticSearch. L'index devra s'appeler `logs` et un autre `alerts`. Si vous souhaitez un nom d'index personnalisé vous devrez éditer le champ de la configuration ci-dessus: `index("VOTRE_NOM_INDEX")` et redémarrer le conteneur syslogng.
